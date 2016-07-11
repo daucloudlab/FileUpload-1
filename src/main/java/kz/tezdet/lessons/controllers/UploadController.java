@@ -30,8 +30,6 @@ public class UploadController {
     public ModelAndView fileUploaded(
             @ModelAttribute("uploadedFile") UploadedFile uploadedFile,
             BindingResult result) {
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
 
         MultipartFile file = uploadedFile.getFile();
         fileValidator.validate(uploadedFile, result);
@@ -43,19 +41,19 @@ public class UploadController {
         }
 
         try {
-            inputStream = file.getInputStream();
+
+            byte[] bytes = file.getBytes() ;
+
 
             File newFile = new File("/home/daulet/InstallFolder/tempFolder/" + fileName);
             if (!newFile.exists()) {
                 newFile.createNewFile();
             }
-            outputStream = new FileOutputStream(newFile);
-            int read = 0;
-            byte[] bytes = new byte[1024];
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(newFile)) ;
+            stream.write(bytes) ;
+            stream.flush() ;
+            stream.close() ;
 
-            while ((read = inputStream.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, read);
-            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
