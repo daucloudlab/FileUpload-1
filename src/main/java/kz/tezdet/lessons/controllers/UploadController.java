@@ -46,9 +46,7 @@ public class UploadController {
 
 
             File newFile = new File("/home/daulet/InstallFolder/tempFolder/" + fileName);
-            if (!newFile.exists()) {
-                newFile.createNewFile();
-            }
+
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(newFile)) ;
             stream.write(bytes) ;
             stream.flush() ;
